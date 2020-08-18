@@ -7,7 +7,7 @@ BUILD_DIR=$(shell pwd)/build/
 MODULE_NAME="RaspberryPi BSP"
 
 TARGETS=kernel.img kernel.list kernel.syms kernel.elf
-LINKER_SCRIPT=raspberrypi.ld
+LINKER_SCRIPT=raspi3.ld
 
 -include .dbuild/dbuild.mk
 
@@ -27,8 +27,6 @@ kernel.syms: kernel.elf
 	$(Q)$(PRETTY) SYMS $(MODULE_NAME) $@
 	$(Q)$(OBJDUMP) -t kernel.elf > $@
 
-#kernel.elf: LDFLAGS += -L "/opt/Xilinx/14.2/ISE_DS/EDK/gnu/arm/lin64/lib/gcc/arm-xilinx-eabi/4.6.1/" -lgcc
-#kernel.elf: LDFLAGS += -L "/opt/Xilinx/14.2/ISE_DS/EDK/gnu/arm/lin64/arm-xilinx-eabi/lib/" -lc
 kernel.elf: LDFLAGS += -L "/usr/lib/gcc/aarch64-linux-gnu/10.2.0" -lgcc
 kernel.elf: LDFLAGS += -L "/usr/aarch64-linux-gnu/lib" -lc
 kernel.elf: $(OBJECTS)

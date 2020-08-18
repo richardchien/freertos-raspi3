@@ -1,7 +1,7 @@
 #include "FreeRTOS.h"
 
-#include "Drivers/irq.h"
-#include "Drivers/timer.h"
+#include "irq.h"
+#include "timer.h"
 
 void vSetupTickInterrupt()
 {

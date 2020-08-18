@@ -4,8 +4,8 @@ ASFLAGS += -march=armv8-a
 CFLAGS += -march=armv8-a -g -Wall -w
 #-Wextra
 
-CFLAGS += -I $(BASE)Source/portable/GCC/ARM_CA53_64_RASPI3/
-CFLAGS += -I $(BASE)Source/include/
+CFLAGS += -I $(BASE)FreeRTOS/Source/portable/GCC/ARM_CA53_64_RASPI3/
+CFLAGS += -I $(BASE)FreeRTOS/Source/include/
 CFLAGS += -I $(BASE)Demo/Drivers/
 CFLAGS += -I $(BASE)Demo/
 

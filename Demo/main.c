@@ -1,15 +1,15 @@
-#include <FreeRTOS.h>
-#include <task.h>
+#include "FreeRTOS.h"
+#include "task.h"
 
-#include "Drivers/irq.h"
-#include "Drivers/gpio.h"
-#include "Drivers/uart.h"
+#include "irq.h"
+#include "gpio.h"
+#include "uart.h"
 
 void task1(void *pParam)
 {
 	while (1) {
 		uart_puts("task 1");
-		vTaskDelay(200);
+		vTaskDelay(100);
 	}
 }
 
