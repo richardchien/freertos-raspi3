@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include <stdint.h>
+#include "FreeRTOS.h"
 
 extern void enable_irq(void);
 extern void disable_irq(void);
