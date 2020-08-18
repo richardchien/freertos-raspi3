@@ -1,5 +1,5 @@
 ENTRY(_boot)
- 
+
 SECTIONS
 {
     /* Starts at LOADER_ADDR. */
@@ -14,7 +14,7 @@ SECTIONS
     }
     . = ALIGN(4096); /* align to page size */
     __text_end = .;
- 
+
     __data_start = .;
     .data :
     {
@@ -22,7 +22,7 @@ SECTIONS
     }
     . = ALIGN(4096); /* align to page size */
     __data_end = .;
- 
+
     __bss_start = .;
     .bss :
     {
@@ -33,4 +33,4 @@ SECTIONS
     __bss_end = .;
     __end = .;
 }
-__bss_size = (__bss_end - __bss_start)>>3;
+__bss_size = (__bss_end - __bss_start) >> 3;

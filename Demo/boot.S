@@ -1,8 +1,6 @@
 .section ".text.boot"
 
-// Make _start global.
 .globl _boot
-
 _boot:
     // in QEMU all of 4 ARM CPUs are started simultaniously by default.
     // use core 0 only, disable core 1,2,3.
