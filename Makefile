@@ -45,3 +45,6 @@ qemu-gdb:
 
 gdb:
 	$(Q)aarch64-none-elf-gdb -n -x .gdbinit -tui
+
+format:
+	$(Q)find ./Demo -iname '*.h' -o -iname '*.c' | xargs clang-format -i -style=file

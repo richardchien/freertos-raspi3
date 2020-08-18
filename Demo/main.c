@@ -5,17 +5,17 @@
 #include "Drivers/gpio.h"
 #include "Drivers/uart.h"
 
-void task1(void *pParam) {
-
-	while(1) {
+void task1(void *pParam)
+{
+	while (1) {
 		uart_puts("task 1");
 		vTaskDelay(200);
 	}
 }
 
-void task2(void *pParam) {
-
-	while(1) {
+void task2(void *pParam)
+{
+	while (1) {
 		vTaskDelay(100);
 		uart_puts("task 2");
 		vTaskDelay(100);
@@ -28,7 +28,7 @@ void task2(void *pParam) {
  *	-- Absolutely nothing wrong with this being called main(), just it doesn't have
  *	-- the same prototype as you'd see in a linux program.
  **/
-void main (void)
+void main(void)
 {
 	uart_init();
 	uart_puts("hello");
@@ -42,7 +42,7 @@ void main (void)
 	 *	We should never get here, but just in case something goes wrong,
 	 *	we'll place the CPU into a safe loop.
 	 */
-	while(1) {
+	while (1) {
 		;
 	}
 }
