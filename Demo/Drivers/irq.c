@@ -20,13 +20,10 @@
 uint64_t core_irq_source[PLAT_CPU_NUM] = { CORE0_IRQ_SOURCE, CORE1_IRQ_SOURCE,
 					   CORE2_IRQ_SOURCE, CORE3_IRQ_SOURCE };
 
+void plat_handle_irq(void);
 void handle_irq(void)
 {
 	plat_handle_irq();
-
-#if configUSE_PREEMPTION == 1
-	vTaskSwitchContext();
-#endif
 }
 
 static inline int ctzl(unsigned long x)
@@ -36,7 +33,7 @@ static inline int ctzl(unsigned long x)
 
 void plat_handle_irq(void)
 {
-	uint32_t cpuid = 0;
+	uint32_t cpuid = 0; // only use core 0 currently
 	unsigned int irq_src, irq;
 
 	irq_src = get32(core_irq_source[cpuid]);

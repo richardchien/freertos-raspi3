@@ -36,12 +36,6 @@
 #error configSETUP_TICK_INTERRUPT() must be defined.  See http://www.freertos.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html
 #endif /* configSETUP_TICK_INTERRUPT */
 
-/* Some vendor specific files default configCLEAR_TICK_INTERRUPT() in
-portmacro.h. */
-#ifndef configCLEAR_TICK_INTERRUPT
-#define configCLEAR_TICK_INTERRUPT()
-#endif
-
 /* A critical section is exited when the critical section nesting count reaches
 this value. */
 #define portNO_CRITICAL_NESTING ((size_t)0)
@@ -281,7 +275,6 @@ void FreeRTOS_Tick_Handler(void)
 #endif /* configASSERT_DEFINED */
 
 	/* Ok to enable interrupts after the interrupt source has been cleared. */
-	configCLEAR_TICK_INTERRUPT();
 	portENABLE_INTERRUPTS();
 
 	/* Increment the RTOS tick. */

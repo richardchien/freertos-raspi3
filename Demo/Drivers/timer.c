@@ -14,8 +14,6 @@
 #include "machine.h"
 #include "tools.h"
 
-#define TICK_MS 1000
-
 uint64_t cntv_tval;
 
 /* Per core IRQ SOURCE MMIO address */
@@ -38,7 +36,7 @@ void timer_init(void)
 	asm volatile("mrs %0, cntfrq_el0" : "=r"(cur_freq));
 
 	/* Calculate the tv */
-	cntv_tval = (cur_freq * TICK_MS / 1000);
+	cntv_tval = (cur_freq / configTICK_RATE_HZ);
 
 	/* set the timervalue here */
 	asm volatile("msr cntv_tval_el0, %0" ::"r"(cntv_tval));
@@ -75,5 +73,5 @@ void plat_enable_timer(void)
 void handle_timer_irq(void)
 {
 	plat_handle_timer_irq();
-	xTaskIncrementTick();
+	FreeRTOS_Tick_Handler();
 }
