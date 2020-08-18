@@ -1,9 +1,15 @@
 *.swp
+*.bak
+*.bak.*
+
 kernel.elf
 kernel.img
 kernel.list
 kernel.map
 kernel.syms
 build
+
 __pycache__
 *.pyc
+
+.vscode
