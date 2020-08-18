@@ -1,49 +1,53 @@
-.global _start
-.global _boot
+.section ".text.boot"
 
-.section .boot,"ax"
+// Make _start global.
+.globl _boot
 
-_start:
 _boot:
-	mov      x0, #0
-	mov      x1, #0
-	mov      x2, #0
-	mov      x3, #0
-	mov      x4, #0
-	mov      x5, #0
-	mov      x6, #0
-	mov      x7, #0
-	mov      x8, #0
-	mov      x9, #0
-	mov      x10, #0
-	mov      x11, #0
-	mov      x12, #0
-	mov      x13, #0
-	mov      x14, #0
-	mov      x15, #0
-	mov      x16, #0
-	mov      x17, #0
-	mov      x18, #0
-	mov      x19, #0
-	mov      x20, #0
-	mov      x21, #0
-	mov      x22, #0
-	mov      x23, #0
-	mov      x24, #0
-	mov      x25, #0
-	mov      x26, #0
-	mov      x27, #0
-	mov      x28, #0
-	mov      x29, #0
-	mov      x30, #0
+    // in QEMU all of 4 ARM CPUs are started simultaniously by default.
+    // use core 0 only, disable core 1,2,3.
+    mrs   x1, mpidr_el1
+    and   x1, x1, #3
+    cmp   x1, #0
+    bne   hang
+    // address for stack pointer.
+    ldr   x1, =_boot
+    // drop to EL2.
+    mov   x2, #0x5b1    // RW=1, HCE=1, SMD=1, RES=1, NS=1
+    msr   scr_el3, x2
+    mov   x2, #0x3c9    // D=1, A=1, I=1, F=1 M=EL2h
+    msr   spsr_el3, x2
+    adr   x2, start_el2
+    msr   elr_el3, x2
+    eret
 
-	bl 	 _startmain		//jump to start
+start_el2:
+    // set sp in EL1.
+    msr   sp_el1, x1
+    // enable AArch64 in EL1.
+    mov   x0, #(1 << 31)      // AArch64
+    orr   x0, x0, #(1 << 1)   // SWIO hardwired on Pi3
+    msr   hcr_el2, x0
+    mrs   x0, hcr_el2
+    // change execution level to EL1.
+    mov   x2, #0x3c5         // D=1, A=1, I=1, F=1 M=EL1h
+    msr   spsr_el2, x2
+    adr   x2, start_el1
+    msr   elr_el2, x2
+    eret
 
-loop:	b	loop
+start_el1:
+    // set sp
+    mov   sp, x1
+    // clear bss.
+    ldr   x1, =__bss_start
+    ldr   w2, =__bss_size
+1:  cbz   w2, 2f
+    str   xzr, [x1], #8
+    sub   w2, w2, #1
+    cbnz  w2, 1b
 
-/*	The rest of the initialisation is done in vTaskStartScheduler() by the port.c and portASM files	*/
+2:  bl    main
 
-_startmain:
-	b main		/*	Ready? Lets start main execution!	*/
-.end
-
+hang:
+    b     hang
