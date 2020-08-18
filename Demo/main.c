@@ -16,9 +16,8 @@ void task1(void *pParam)
 void task2(void *pParam)
 {
 	while (1) {
-		vTaskDelay(100);
 		uart_puts("task 2");
-		vTaskDelay(100);
+		vTaskDelay(200);
 	}
 }
 
