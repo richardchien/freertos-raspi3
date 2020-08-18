@@ -10,8 +10,19 @@
  *   See the Mulan PSL v1 for more details.
  */
 
-#pragma once
+/*
+ * DAIF 4 bits
+ * D: debug exceptions
+ * A: asynchronous aborts SError
+ * I: IRQs
+ * F: FIQs
+ */
+.global enable_irq
+.type enable_irq, % function;
+	msr	daifclr, #2
+	ret
 
-void enable_irq(void);
-void disable_irq(void);
-void handle_irq(void);
+.global disable_irq
+.type disable_irq, % function;
+        msr     daifset, #2
+        ret

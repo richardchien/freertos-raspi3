@@ -12,6 +12,5 @@
 
 #pragma once
 
-void enable_irq(void);
-void disable_irq(void);
-void handle_irq(void);
+void timer_init(void);
+void handle_timer_irq(void);

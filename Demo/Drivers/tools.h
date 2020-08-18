@@ -12,6 +12,9 @@
 
 #pragma once
 
-void enable_irq(void);
-void disable_irq(void);
-void handle_irq(void);
+#include <stdint.h>
+
+extern void enable_irq(void);
+extern void disable_irq(void);
+extern void put32(uint64_t addr, uint32_t data);
+extern unsigned int get32(uint64_t addr);

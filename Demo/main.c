@@ -36,7 +36,7 @@ void main(void)
 	// xTaskCreate(task1, "LED_0", 128, NULL, 0, NULL);
 	// xTaskCreate(task2, "LED_1", 128, NULL, 0, NULL);
 
-	// vTaskStartScheduler();
+	vTaskStartScheduler();
 
 	/*
 	 *	We should never get here, but just in case something goes wrong,

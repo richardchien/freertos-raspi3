@@ -10,8 +10,22 @@
  *   See the Mulan PSL v1 for more details.
  */
 
-#pragma once
+.global put32
+put32:
+    str w1,[x0]
+    ret
 
-void enable_irq(void);
-void disable_irq(void);
-void handle_irq(void);
+.global get32
+get32:
+    ldr w0,[x0]
+    ret
+
+.global put64
+put64:
+    str x1,[x0]
+    ret
+
+.global get64
+get64:
+    ldr x0,[x0]
+    ret
