@@ -19,7 +19,6 @@ OBJECTS += $(BUILD_DIR)Demo/Drivers/tools.o
 OBJECTS += $(BUILD_DIR)Demo/Drivers/irq.o
 OBJECTS += $(BUILD_DIR)Demo/Drivers/irq_asm.o
 OBJECTS += $(BUILD_DIR)Demo/Drivers/timer.o
-OBJECTS += $(BUILD_DIR)Demo/Drivers/gpio.o
 OBJECTS += $(BUILD_DIR)Demo/Drivers/uart.o
 
 $(BUILD_DIR)FreeRTOS/Source/portable/GCC/RaspberryPi/port.o: CFLAGS += -I $(BASE)Demo/

@@ -2,7 +2,6 @@
 #include "task.h"
 
 #include "irq.h"
-#include "gpio.h"
 #include "uart.h"
 
 void task1(void *pParam)

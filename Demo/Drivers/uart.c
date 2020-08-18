@@ -1,4 +1,4 @@
-#include "regs.h"
+#include "machine.h"
 #include "tools.h"
 
 static void dummy(unsigned int value)
@@ -30,19 +30,19 @@ void uart_init(void)
 	put32(AUX_MU_IER_REG, 0);
 	put32(AUX_MU_IIR_REG, 0xC6);
 	put32(AUX_MU_BAUD_REG, 270);
-	ra = get32(GPFSEL1);
+	ra = get32(BCM2835_GPIO_GPFSEL1);
 	ra &= ~(7 << 12); //gpio14
 	ra |= 2 << 12; //alt5
 	ra &= ~(7 << 15); //gpio15
 	ra |= 2 << 15; //alt5
-	put32(GPFSEL1, ra);
-	put32(GPPUD, 0);
+	put32(BCM2835_GPIO_GPFSEL1, ra);
+	put32(BCM2835_GPIO_GPPUD, 0);
 	for (ra = 0; ra < 150; ra++)
 		dummy(ra);
-	put32(GPPUDCLK0, (1 << 14) | (1 << 15));
+	put32(BCM2835_GPIO_GPPUDCLK0, (1 << 14) | (1 << 15));
 	for (ra = 0; ra < 150; ra++)
 		dummy(ra);
-	put32(GPPUDCLK0, 0);
+	put32(BCM2835_GPIO_GPPUDCLK0, 0);
 	put32(AUX_MU_CNTL_REG, 3);
 }
 
