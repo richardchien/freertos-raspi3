@@ -33,6 +33,9 @@ kernel.elf: $(OBJECTS)
 	$(Q)$(LD) $(OBJECTS) -Map kernel.map -o $@ -T $(LINKER_SCRIPT) $(LDFLAGS)
 
 
+dockerbuild:
+	$(Q)bash $(BASE)/scripts/dockerbuild.sh
+
 QEMUOPTS = -M raspi3 -m 1G -serial null -serial mon:stdio -nographic -kernel kernel.elf
 
 qemu:
