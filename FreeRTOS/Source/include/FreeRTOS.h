@@ -67,9 +67,9 @@ extern "C" {
 #endif
 
 /* Required if struct _reent is used. */
-#if (configUSE_NEWLIB_REENTRANT == 1)
-#include <reent.h>
-#endif
+// #if (configUSE_NEWLIB_REENTRANT == 1)
+// #include <reent.h>
+// #endif
 /*
  * Check all the required application specific macros have been defined.
  * These macros are application specific and (as downloaded) are defined
