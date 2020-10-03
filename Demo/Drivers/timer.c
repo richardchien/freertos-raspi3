@@ -32,7 +32,7 @@ void timer_init(void)
 
 	/* Since QEMU only emulate the generic timer, we use the generic timer
 	 * here */
-	asm volatile("mrs %0, cntpct_el0" : "=r"(cur_cnt));
+	asm volatile("mrs %0, cntvct_el0" : "=r"(cur_cnt));
 	asm volatile("mrs %0, cntfrq_el0" : "=r"(cur_freq));
 
 	/* Calculate the tv */
