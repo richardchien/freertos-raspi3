@@ -14,6 +14,7 @@
 
 #include "machine.h"
 #include "tools.h"
+#include "printf.h"
 
 uint64_t cnt_freq;
 uint64_t cnt_tval;
@@ -35,6 +36,8 @@ void timer_init()
 	/* Enable timer */
 	cnt_ctl = 0 << 1 | 1; /* IMASK=0, ENABLE=1 */
 	asm volatile("msr cntv_ctl_el0, %0" ::"r"(cnt_ctl));
+
+	printf("Timer inited\n");
 }
 
 void handle_timer_irq()

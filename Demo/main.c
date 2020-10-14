@@ -30,7 +30,7 @@ void task2(void *arg)
 void main(void)
 {
 	uart_init();
-	printf("hello\n");
+	printf("Booting...\n");
 
 	xTaskCreate(task1, "TASK_0", 128, NULL, 0, NULL);
 	xTaskCreate(task2, "TASK_1", 128, NULL, 0, NULL);
