@@ -11,43 +11,36 @@
  */
 
 #include "FreeRTOS.h"
+
 #include "machine.h"
 #include "tools.h"
 
-uint64_t cntv_tval;
+uint64_t cnt_freq;
+uint64_t cnt_tval;
+uint64_t cnt_ctl;
 
-void timer_init(void)
+void timer_init()
 {
-	uint64_t cur_freq = 0;
-	uint64_t cur_cnt = 0;
-	uint64_t count_down = 0;
-	uint64_t timer_ctl = 0;
-
-	/* Since QEMU only emulate the generic timer, we use the generic timer
-	 * here */
-	asm volatile("mrs %0, cntvct_el0" : "=r"(cur_cnt));
-	asm volatile("mrs %0, cntfrq_el0" : "=r"(cur_freq));
-
-	/* Calculate the tv */
-	cntv_tval = (cur_freq / configTICK_RATE_HZ);
-
-	/* set the timervalue here */
-	asm volatile("msr cntv_tval_el0, %0" ::"r"(cntv_tval));
-	asm volatile("mrs %0, cntv_tval_el0" : "=r"(count_down));
-
 	put32(CORE0_TIMER_IRQCNTL, INT_SRC_TIMER3);
 
-	/* Set the control register */
-	timer_ctl = 0 << 1 | 1; /* IMASK = 0 ENABLE = 1 */
-	asm volatile("msr cntv_ctl_el0, %0" ::"r"(timer_ctl));
-	asm volatile("mrs %0, cntv_ctl_el0" : "=r"(timer_ctl));
-	/* enable interrupt controller */
-	return;
+	/* Get timer frequency */
+	asm volatile("mrs %0, cntfrq_el0" : "=r"(cnt_freq));
+
+	/* Calculate TimerValue */
+	cnt_tval = (cnt_freq / configTICK_RATE_HZ);
+
+	/* Set TimerValue */
+	asm volatile("msr cntv_tval_el0, %0" ::"r"(cnt_tval));
+
+	/* Enable timer */
+	cnt_ctl = 0 << 1 | 1; /* IMASK=0, ENABLE=1 */
+	asm volatile("msr cntv_ctl_el0, %0" ::"r"(cnt_ctl));
 }
 
-void handle_timer_irq(void)
+void handle_timer_irq()
 {
-	asm volatile("msr cntv_tval_el0, %0" ::"r"(cntv_tval));
+	asm volatile("msr cntv_tval_el0, %0" ::"r"(cnt_tval));
+	// asm volatile("msr cntv_ctl_el0, %0" ::"r"(cnt_ctl));
 
 	FreeRTOS_Tick_Handler();
 }

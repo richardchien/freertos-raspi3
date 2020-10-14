@@ -17,7 +17,7 @@ void task2(void *arg)
 {
 	while (1) {
 		printf("task 2\n");
-		vTaskDelay(200);
+		vTaskDelay(300);
 	}
 }
 

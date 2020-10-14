@@ -1,7 +1,7 @@
 #include "machine.h"
 #include "tools.h"
 
-void uart_init(void)
+void uart_init()
 {
 	unsigned int ra;
 
@@ -27,12 +27,12 @@ void uart_init(void)
 	put32(AUX_MU_CNTL_REG, 3);
 }
 
-static unsigned int uart_lsr(void)
+static unsigned int uart_lsr()
 {
 	return get32(AUX_MU_LSR_REG);
 }
 
-unsigned int uart_recv(void)
+unsigned int uart_recv()
 {
 	while (1) {
 		if (uart_lsr() & 0x01)
