@@ -11,7 +11,7 @@ _boot:
 	// drop to el1
 	bl		elX_to_el1
 
-    // setup stack
+	// setup stack
 	ldr		x1, =_boot
 	mov		sp, x1
 
