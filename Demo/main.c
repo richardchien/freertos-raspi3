@@ -3,19 +3,20 @@
 
 #include "irq.h"
 #include "uart.h"
+#include "printf.h"
 
-void task1(void *pParam)
+void task1(void *arg)
 {
 	while (1) {
-		uart_puts("task 1");
+		printf("task 1\n");
 		vTaskDelay(100);
 	}
 }
 
-void task2(void *pParam)
+void task2(void *arg)
 {
 	while (1) {
-		uart_puts("task 2");
+		printf("task 2\n");
 		vTaskDelay(200);
 	}
 }
@@ -29,7 +30,7 @@ void task2(void *pParam)
 void main(void)
 {
 	uart_init();
-	uart_puts("hello");
+	printf("hello\n");
 
 	xTaskCreate(task1, "TASK_0", 128, NULL, 0, NULL);
 	xTaskCreate(task2, "TASK_1", 128, NULL, 0, NULL);

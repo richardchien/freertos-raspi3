@@ -14,7 +14,15 @@
 
 #include "FreeRTOS.h"
 
-extern void enable_irq(void);
-extern void disable_irq(void);
+extern void enable_irq();
+extern void disable_irq();
+
 extern void put32(uint64_t addr, uint32_t data);
 extern unsigned int get32(uint64_t addr);
+
+extern void delay(uint64_t time);
+
+static inline int ctzl(unsigned long x)
+{
+	return x == 0 ? (sizeof(x) * 8) : __builtin_ctzl(x);
+}

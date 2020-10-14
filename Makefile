@@ -4,16 +4,15 @@
 BASE=$(shell pwd)/
 BUILD_DIR=$(shell pwd)/build/
 
-MODULE_NAME="RaspberryPi BSP"
+MODULE_NAME="RASPI3"
 
 TARGETS=kernel.img kernel.list kernel.syms kernel.elf
 LINKER_SCRIPT=raspi3.ld
 
 -include .dbuild/dbuild.mk
 
-
 all: kernel.list kernel.img kernel.syms
-	@$(SIZE) kernel.elf
+	$(Q)$(SIZE) kernel.elf
 
 kernel.img: kernel.elf
 	$(Q)$(PRETTY) IMAGE $(MODULE_NAME) $@
@@ -45,7 +44,7 @@ qemu-gdb:
 	$(Q)qemu-system-aarch64 -gdb tcp::1234 -S $(QEMUOPTS)
 
 gdb:
-	$(Q)aarch64-none-elf-gdb -n -x .gdbinit -tui
+	$(Q)aarch64-linux-gnu-gdb -n -x .gdbinit -tui
 
 format:
-	$(Q)find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i -style=file
+	$(Q)find Demo -iname '*.h' -o -iname '*.c' | xargs clang-format -i -style=file

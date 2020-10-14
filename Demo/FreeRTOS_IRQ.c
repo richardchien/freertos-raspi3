@@ -8,7 +8,7 @@ void vSetupTickInterrupt()
 	timer_init();
 }
 
-void vApplicationIRQHandler(uint32_t ulCORE0_INT_SRC)
+void vApplicationIRQHandler(uint32_t irq_src)
 {
-	handle_irq();
+	handle_irq(irq_src);
 }

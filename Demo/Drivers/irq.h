@@ -12,6 +12,6 @@
 
 #pragma once
 
-void enable_irq(void);
-void disable_irq(void);
-void handle_irq(void);
+void enable_irq();
+void disable_irq();
+void handle_irq(uint32_t irq_src);

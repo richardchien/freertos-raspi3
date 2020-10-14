@@ -1,23 +1,6 @@
 #include "machine.h"
 #include "tools.h"
 
-static void dummy(unsigned int value)
-{
-	(void)value;
-	return;
-}
-
-static void uart_send(unsigned int c)
-{
-	//int i;
-	while (1) {
-		if (get32(AUX_MU_LSR_REG) & 0x20)
-			break;
-	}
-	//for(i=0;i<0x7FF;i++);
-	put32(AUX_MU_IO_REG, c);
-}
-
 void uart_init(void)
 {
 	unsigned int ra;
@@ -37,21 +20,43 @@ void uart_init(void)
 	ra |= 2 << 15; //alt5
 	put32(BCM2835_GPIO_GPFSEL1, ra);
 	put32(BCM2835_GPIO_GPPUD, 0);
-	for (ra = 0; ra < 150; ra++)
-		dummy(ra);
+	delay(150);
 	put32(BCM2835_GPIO_GPPUDCLK0, (1 << 14) | (1 << 15));
-	for (ra = 0; ra < 150; ra++)
-		dummy(ra);
+	delay(150);
 	put32(BCM2835_GPIO_GPPUDCLK0, 0);
 	put32(AUX_MU_CNTL_REG, 3);
 }
 
-void uart_puts(char *s)
+static unsigned int uart_lsr(void)
 {
-	while (*s != 0) {
-		uart_send((unsigned int)*s);
-		s++;
+	return get32(AUX_MU_LSR_REG);
+}
+
+unsigned int uart_recv(void)
+{
+	while (1) {
+		if (uart_lsr() & 0x01)
+			break;
 	}
-	uart_send(0x0D);
-	uart_send(0x0A);
+	return get32(AUX_MU_IO_REG) & 0xFF;
+}
+
+void uart_send(unsigned int c)
+{
+	while (1) {
+		if (uart_lsr() & 0x20)
+			break;
+	}
+	put32(AUX_MU_IO_REG, c);
+}
+
+void uart_send_string(char *str)
+{
+	for (int i = 0; str[i] != '\0'; i++)
+		uart_send((char)str[i]);
+}
+
+void uart_putc(char c)
+{
+	uart_send(c);
 }

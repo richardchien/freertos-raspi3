@@ -29,3 +29,9 @@ put64:
 get64:
     ldr x0,[x0]
     ret
+
+.global delay
+delay:
+    subs x0, x0, #1
+    bne delay
+    ret
