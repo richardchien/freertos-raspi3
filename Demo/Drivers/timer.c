@@ -43,7 +43,7 @@ void timer_init()
 void handle_timer_irq()
 {
 	asm volatile("msr cntv_tval_el0, %0" ::"r"(cnt_tval));
-	// asm volatile("msr cntv_ctl_el0, %0" ::"r"(cnt_ctl));
+	asm volatile("msr cntv_ctl_el0, %0" ::"r"(cnt_ctl));
 
 	FreeRTOS_Tick_Handler();
 }
