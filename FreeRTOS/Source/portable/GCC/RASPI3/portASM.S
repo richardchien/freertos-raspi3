@@ -344,7 +344,6 @@ pxCurrentTCBConst: .dword pxCurrentTCB
 ullCriticalNestingConst: .dword ullCriticalNesting
 ullPortTaskHasFPUContextConst: .dword ullPortTaskHasFPUContext
 
-vApplicationIRQHandlerConst: .word vApplicationIRQHandler
 ullPortInterruptNestingConst: .dword ullPortInterruptNesting
 ullPortYieldRequiredConst: .dword ullPortYieldRequired
 ullCore0IRQSourceConst: .dword ullCore0IRQSource
